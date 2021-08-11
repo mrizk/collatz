@@ -8,10 +8,10 @@ import (
 )
 
 func TestDraw(t *testing.T) {
-	width := 4000
-	height := 2000
+	width := 14173
+	height := 8031
 	p := &collatz.Params{
-		N:   1500,
+		N:   3000,
 		Max: 200000000,
 
 		Filename: "out.png",
@@ -22,15 +22,15 @@ func TestDraw(t *testing.T) {
 		TiltAngleEvenAdjuster: math.Log(2),
 		TiltAngleOddAdjuster:  math.Log(3) * 1.12,
 
-		LineLengthMultiplier: 60,
-		LineWidth:            3,
-		LineShorteningPower:  1.2,
+		LineLengthMultiplier: 250,
+		LineWidth:            7,
+		LineShorteningPower:  1.21,
 
-		BackgroundColor: color.RGBA{5, 31, 61, 255},
-		LineColor:       color.RGBA{247, 237, 230, 51},
+		BackgroundColor: color.RGBA{255, 249, 245, 255},
+		LineColor:       color.RGBA{18, 69, 128, 60},
 
-		StartX: float64(width) * 0.05,
-		StartY: float64(height) * 0.8,
+		StartX: float64(width) * 0.0,
+		StartY: float64(height) * 0.85,
 	}
 
 	collatz.Draw(p)
