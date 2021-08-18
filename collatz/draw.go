@@ -27,6 +27,12 @@ type Params struct {
 
 	BackgroundColor color.Color
 	LineColor       color.Color
+	GradientColors  []color.Color
+
+	GridColor     color.Color
+	GridLineWidth float64
+	GridColumns   int
+	GridRows      int
 
 	StartX     float64
 	StartY     float64
@@ -38,6 +44,34 @@ func Draw(p *Params) {
 	dc := gg.NewContext(p.Width, p.Height)
 	dc.SetRGBA(rgba(p.BackgroundColor.RGBA()))
 	dc.Clear()
+
+	// Gradient
+	if len(p.GradientColors) > 0 {
+		grad := gg.NewRadialGradient(float64(p.Width)/2.0, float64(p.Height)/2.0, 0, float64(p.Width)/2.0, float64(p.Height)/2.0, float64(p.Width)*2)
+		for i, c := range p.GradientColors {
+			grad.AddColorStop(float64(i), c)
+		}
+		dc.SetFillStyle(grad)
+		dc.DrawRectangle(0, 0, float64(p.Width), float64(p.Height))
+		dc.Fill()
+	}
+
+	// Gird
+	dc.SetColor(p.GridColor)
+	dc.SetLineWidth(p.GridLineWidth)
+
+	columns := p.GridColumns
+	for i := 1; i <= columns; i++ {
+		width := p.Width / columns
+		dc.DrawLine(float64(i*width), 0, float64(i*width), float64(p.Height))
+		dc.Stroke()
+	}
+	rows := p.GridRows
+	for i := 1; i <= rows; i++ {
+		height := p.Height / rows
+		dc.DrawLine(0, float64(i*height), float64(p.Width), float64(i*height))
+		dc.Stroke()
+	}
 
 	for i := 1; i <= p.N; i++ {
 		var graph *Node
@@ -53,7 +87,10 @@ func Draw(p *Params) {
 		dc.Stroke()
 	}
 
-	dc.SavePNG(p.Filename)
+	err := gg.SaveJPG(p.Filename, dc.Image(), 100)
+	if err != nil {
+		panic(err)
+	}
 }
 
 // DrawLine recursively draws a line from a given starting point in a graph

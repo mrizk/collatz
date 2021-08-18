@@ -8,13 +8,13 @@ import (
 )
 
 func TestDraw(t *testing.T) {
-	width := 14173
-	height := 8031
+	width := 15118
+	height := 8504
 	p := &collatz.Params{
 		N:   3000,
 		Max: 200000000,
 
-		Filename: "out.png",
+		Filename: "dark_grid.jpg",
 		Width:    width,
 		Height:   height,
 
@@ -22,15 +22,24 @@ func TestDraw(t *testing.T) {
 		TiltAngleEvenAdjuster: math.Log(2),
 		TiltAngleOddAdjuster:  math.Log(3) * 1.12,
 
-		LineLengthMultiplier: 250,
+		LineLengthMultiplier: 260,
 		LineWidth:            7,
 		LineShorteningPower:  1.21,
 
 		BackgroundColor: color.RGBA{255, 249, 245, 255},
-		LineColor:       color.RGBA{18, 69, 128, 60},
+		LineColor:       color.RGBA{255, 230, 191, 60},
+		GradientColors: []color.Color{
+			color.RGBA{12, 36, 77, 255}, // red 235, 64, 52
+			color.RGBA{0, 0, 0, 255},
+		},
+
+		GridColor:     color.RGBA{7, 67, 110, 255},
+		GridLineWidth: 4,
+		GridColumns:   64,
+		GridRows:      36,
 
 		StartX: float64(width) * 0.0,
-		StartY: float64(height) * 0.85,
+		StartY: float64(height) * 0.80,
 	}
 
 	collatz.Draw(p)
