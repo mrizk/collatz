@@ -13,7 +13,7 @@ func main() {
 		log.Fatal("$PORT must be set")
 	}
 
-	http.HandleFunc("/collatz", api.CollatzHandler)
+	http.HandleFunc("/image", api.CollatzHandler)
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
