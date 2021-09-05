@@ -42,7 +42,8 @@ func CollatzHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		w.Header().Set("Content-Type", "image/png")
 	}
-	w.Header().Set("Content-Length", strconv.Itoa(len(buffer.Bytes())))
+
+	w.Header().Set("Content-Length", strconv.Itoa(buffer.Len()))
 
 	if _, err := w.Write(buffer.Bytes()); err != nil {
 		http.Error(w, fmt.Errorf("error writing buffer to response: %w", err).Error(), http.StatusInternalServerError)
