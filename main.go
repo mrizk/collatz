@@ -9,5 +9,5 @@ import (
 func main() {
 	http.HandleFunc("/collatz", api.CollatzHandler)
 
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
