@@ -8,10 +8,8 @@ type Node struct {
 	Value int
 }
 
-var memo map[int]*Node = make(map[int]*Node)
-
 // Calc caltulates the `chain` of numbers from the given value `n` until 1
-func Calc(n int, chain *[]int) {
+func Calc(n int, chain *[]int, memo map[int]*Node) {
 	*chain = append(*chain, n)
 
 	// if _, ok := memo[n]; ok {
@@ -24,14 +22,14 @@ func Calc(n int, chain *[]int) {
 	}
 
 	if n%2 == 0 {
-		Calc(n/2, chain)
+		Calc(n/2, chain, memo)
 	} else {
-		Calc(3*n+1, chain)
+		Calc(3*n+1, chain, memo)
 	}
 }
 
 // UpdateGraph updates the given `graph` with the values in `chain`
-func UpdateGraph(chain []int, graph *Node) *Node {
+func UpdateGraph(chain []int, graph *Node, memo map[int]*Node) *Node {
 	if graph == nil {
 		graph = &Node{
 			Value: 1,

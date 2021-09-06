@@ -87,9 +87,10 @@ func Draw(p *Params) (image.Image, error) {
 	for i := 1; i <= p.N; i++ {
 		var graph *Node
 		chain := []int{}
+		memo := make(map[int]*Node)
 
-		Calc(int(rand.Int31n(p.Max)), &chain)
-		graph = UpdateGraph(chain, graph)
+		Calc(int(rand.Int31n(p.Max)), &chain, memo)
+		graph = UpdateGraph(chain, graph, memo)
 
 		dc.SetRGBA(rgba(p.LineColor.RGBA()))
 		dc.SetLineWidth(float64(p.LineWidth))
