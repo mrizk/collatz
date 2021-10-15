@@ -2,7 +2,6 @@ package api_test
 
 import (
 	"collatz/api"
-	"encoding/json"
 	"image/color"
 	"math"
 	"testing"
@@ -48,11 +47,11 @@ func TestDraw(t *testing.T) {
 		StartY: float64(height) * 0.80,
 	}
 
-	data, err := json.MarshalIndent(p, "", "	")
-	if err != nil {
-		panic(err)
-	}
-	println(string(data))
+	// data, err := json.MarshalIndent(p, "", "	")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// println(string(data))
 
 	api.Draw(p)
 }
