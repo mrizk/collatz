@@ -14,7 +14,7 @@ func TestDraw(t *testing.T) {
 		N:   3000,
 		Max: 200000000,
 
-		Filename: "test",
+		Filename: "posterNoGrid",
 		Format:   api.ImageFormatPNG,
 		Width:    width,
 		Height:   height,
@@ -27,21 +27,18 @@ func TestDraw(t *testing.T) {
 		LineWidth:            7,
 		LineShorteningPower:  1.21,
 
-		BackgroundColor: color.RGBA{0, 0, 0, 0},
-		LineColor:       color.RGBA{0, 0, 0, 60},
-		// BackgroundColor: color.RGBA{255, 249, 245, 255},
-		// LineColor:       color.RGBA{255, 230, 191, 60},
-		// GradientColors: []color.Color{
-		// 	color.RGBA{12, 36, 77, 255}, // red 235, 64, 52
-		// 	color.RGBA{0, 0, 0, 255},
-		// },
+		BackgroundColor: color.RGBA{255, 249, 245, 255},
+		LineColor:       color.RGBA{255, 230, 191, 60},
+		TextColor:       color.RGBA{255, 230, 191, 150},
+		GradientColors: []color.RGBA{
+			{12, 36, 77, 255}, // red 235, 64, 52
+			{0, 0, 0, 255},
+		},
 
 		GridColor:     color.RGBA{7, 67, 110, 255},
 		GridLineWidth: 4,
 		// GridColumns:   64,
 		// GridRows:      36,
-		GridColumns: 0,
-		GridRows:    0,
 
 		StartX: float64(width) * 0.0,
 		StartY: float64(height) * 0.80,
@@ -53,5 +50,8 @@ func TestDraw(t *testing.T) {
 	// }
 	// println(string(data))
 
-	api.Draw(p)
+	_, err := api.Draw(p)
+	if err != nil {
+		t.Error(err.Error())
+	}
 }

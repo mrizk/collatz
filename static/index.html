@@ -1,0 +1,70 @@
+<html>
+    <script>
+        function saveBlob(blob, fileName) {
+            var a = document.createElement('a');
+            a.href = window.URL.createObjectURL(blob);
+            a.download = fileName;
+            a.dispatchEvent(new MouseEvent('click'));
+        }
+        function getImage() {
+            var url = "/image";
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url);
+        
+            // xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+        
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    saveBlob(this.responseText, "test");
+                }
+            };
+
+            var data = {
+                N: 3000,
+                Max: 200000000,
+                Filename: "test",
+                Format: "png",
+                Width: 15118,
+                Height: 8504,
+                TiltAngle: 8,
+                TiltAngleEvenAdjuster: 0.6931471805599453,
+                TiltAngleOddAdjuster: 1.2304457633082828,
+                LineLengthMultiplier: 260,
+                LineWidth: 7,
+                LineShorteningPower: 1.21,
+                BackgroundColor: {
+                    R: 0,
+                    G: 0,
+                    B: 0,
+                    A: 0
+                },
+                LineColor: {
+                    R: 0,
+                    G: 0,
+                    B: 0,
+                    A: 60
+                },
+                GradientColors: null,
+                GridColor: {
+                    R: 7,
+                    G: 67,
+                    B: 110,
+                    A: 255
+                },
+                GridLineWidth: 4,
+                GridColumns: 0,
+                GridRows: 0,
+                StartX: 0,
+                StartY: 6803.200000000001,
+                StartAngle: 0
+            }
+
+            xhr.open("POST", url, true);
+            xhr.send(JSON.stringify(data));
+        }
+    </script>
+    <body>
+        <button onclick="getImage()">Image</button>
+    </body>
+</html>

@@ -1,12 +1,15 @@
 package api
 
 import (
+	"fmt"
 	"image"
 	"image/color"
+	"io/ioutil"
 	"math"
 	"math/rand"
 
 	"github.com/fogleman/gg"
+	"golang.org/x/image/font/opentype"
 )
 
 // Params defines the parameters used to draw a vizualization
@@ -29,6 +32,7 @@ type Params struct {
 
 	BackgroundColor color.RGBA
 	LineColor       color.RGBA
+	TextColor       color.RGBA
 	GradientColors  []color.RGBA
 
 	GridColor     color.RGBA
@@ -99,20 +103,42 @@ func Draw(p *Params) (image.Image, error) {
 		dc.Stroke()
 	}
 
+	// Signature
+	dc.SetRGBA(rgba(p.TextColor.RGBA()))
+	fontBytes, err := ioutil.ReadFile("Magis Authentic.ttf")
+	if err != nil {
+		return nil, err
+	}
+	f, err := opentype.Parse(fontBytes)
+	if err != nil {
+		return nil, err
+	}
+	face, err := opentype.NewFace(f, &opentype.FaceOptions{
+		Size: 100,
+		DPI:  150,
+		// Hinting: font.HintingFull,
+	})
+	if err != nil {
+		return nil, err
+	}
+	dc.SetFontFace(face)
+	dc.DrawString("No -> 3n + 1", float64(p.Width)-1250, float64(p.Height)-500)
+	dc.DrawString("Ne -> n/2", float64(p.Width)-1250, float64(p.Height)-270)
+
 	// Save
-	// filename := fmt.Sprintf("images/%s.%s", p.Filename, string(p.Format))
-	// switch p.Format {
-	// case ImageFormatPNG:
-	// 	err := dc.SavePNG(filename)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// case ImageFormatJPG:
-	// 	err := gg.SaveJPG(filename, dc.Image(), 100)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// }
+	filename := fmt.Sprintf("images/%s.%s", p.Filename, string(p.Format))
+	switch p.Format {
+	case ImageFormatPNG:
+		err := dc.SavePNG(filename)
+		if err != nil {
+			return nil, err
+		}
+	case ImageFormatJPG:
+		err := gg.SaveJPG(filename, dc.Image(), 100)
+		if err != nil {
+			return nil, err
+		}
+	}
 	return dc.Image(), nil
 }
 
