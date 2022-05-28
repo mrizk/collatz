@@ -3,6 +3,7 @@ package api_test
 import (
 	"bytes"
 	"collatz/api"
+	"collatz/drawing"
 	"encoding/json"
 	"image/color"
 	"math"
@@ -15,12 +16,12 @@ func BenchmarkHandler(b *testing.B) {
 
 	width := 15118
 	height := 8504
-	p := &api.Params{
+	p := &drawing.Params{
 		N:   3000,
 		Max: 200000000,
 
 		Filename: "test",
-		Format:   api.ImageFormatPNG,
+		Format:   drawing.ImageFormatPNG,
 		Width:    width,
 		Height:   height,
 
