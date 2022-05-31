@@ -111,6 +111,8 @@ func NewColorPicker(w fyne.Window, label string, initialColor color.Color, updat
 	}
 	updateLabelFromColor(colorLabel, initialColor)
 	rectangle := canvas.NewRectangle(initialColor)
+	pickerPreview := canvas.NewRectangle(initialColor)
+	pickerPreview.SetMinSize(fyne.NewSize(50, 50))
 	colorPicker := colorpicker.New(300, colorpicker.StyleHue)
 	updateParam(initialColor)
 	colorPicker.SetColor(initialColor)
@@ -118,6 +120,8 @@ func NewColorPicker(w fyne.Window, label string, initialColor color.Color, updat
 		updateParam(c)
 		rectangle.FillColor = c
 		rectangle.Refresh()
+		pickerPreview.FillColor = c
+		pickerPreview.Refresh()
 		updateLabelFromColor(colorLabel, c)
 	})
 	return ColorPicker{
@@ -125,7 +129,7 @@ func NewColorPicker(w fyne.Window, label string, initialColor color.Color, updat
 		Rectangle:  rectangle,
 		ColorLabel: colorLabel,
 		Button: widget.NewButton("", func() {
-			dialog.ShowCustom("Pick Color", "Ok", container.NewWithoutLayout(colorPicker), w)
+			dialog.ShowCustom("Pick Color", "Ok", container.NewVBox(colorPicker, container.New(layout.NewMaxLayout(), canvas.NewRectangle(color.White), pickerPreview)), w)
 		}),
 	}
 }
